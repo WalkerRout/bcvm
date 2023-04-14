@@ -4,7 +4,14 @@ cmake_minimum_required(VERSION 3.5.1)
 # set to use C compiler
 project(bcvm C CXX)
 
-set(CMAKE_C_COMPILER /usr/bin/gcc)
+
+if(WIN32)
+  set(CCompilerPath "C:/TDM-GCC-64/bin/gcc")
+else()
+  set(CCompilerPath "/usr/bin/gcc")
+endif()
+
+set(CMAKE_C_COMPILER ${CCompilerPath})
 
 set(EXEC bcvm)
 

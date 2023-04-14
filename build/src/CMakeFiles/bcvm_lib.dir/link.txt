@@ -1,2 +1,2 @@
-/usr/bin/ar qc libbcvm_lib.a  CMakeFiles/bcvm_lib.dir/chunk.c.o CMakeFiles/bcvm_lib.dir/debug.c.o CMakeFiles/bcvm_lib.dir/main.c.o CMakeFiles/bcvm_lib.dir/memory.c.o CMakeFiles/bcvm_lib.dir/value.c.o
-/usr/bin/ranlib libbcvm_lib.a
+C:\TDM-GCC-64\bin\ar.exe qc libbcvm_lib.a CMakeFiles/bcvm_lib.dir/chunk.c.obj CMakeFiles/bcvm_lib.dir/debug.c.obj CMakeFiles/bcvm_lib.dir/main.c.obj CMakeFiles/bcvm_lib.dir/memory.c.obj CMakeFiles/bcvm_lib.dir/value.c.obj
+C:\TDM-GCC-64\bin\ranlib.exe libbcvm_lib.a

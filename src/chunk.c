@@ -14,8 +14,9 @@ inline void chunk_init(struct Chunk *self) {
 
 inline void chunk_free(struct Chunk *self) {
   size_t ts = type_size();
+  
   value_array_free(&self->constants);
-  FREE_ARRAY(uint8_t, );
+  FREE_ARRAY(uint8_t, &self->constants, ts * self->capacity);
 }
 
 void chunk_write(struct Chunk *self, uint8_t byte) {

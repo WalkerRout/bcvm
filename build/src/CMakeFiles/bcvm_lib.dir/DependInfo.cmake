@@ -1,21 +1,18 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
-  "C"
   )
-# The set of files for implicit dependencies of each language:
-set(CMAKE_DEPENDS_CHECK_C
-  "/home/wrout/Workspace/c-workspace/bcvm/src/chunk.c" "/home/wrout/Workspace/c-workspace/bcvm/build/src/CMakeFiles/bcvm_lib.dir/chunk.c.o"
-  "/home/wrout/Workspace/c-workspace/bcvm/src/debug.c" "/home/wrout/Workspace/c-workspace/bcvm/build/src/CMakeFiles/bcvm_lib.dir/debug.c.o"
-  "/home/wrout/Workspace/c-workspace/bcvm/src/main.c" "/home/wrout/Workspace/c-workspace/bcvm/build/src/CMakeFiles/bcvm_lib.dir/main.c.o"
-  "/home/wrout/Workspace/c-workspace/bcvm/src/memory.c" "/home/wrout/Workspace/c-workspace/bcvm/build/src/CMakeFiles/bcvm_lib.dir/memory.c.o"
-  "/home/wrout/Workspace/c-workspace/bcvm/src/value.c" "/home/wrout/Workspace/c-workspace/bcvm/build/src/CMakeFiles/bcvm_lib.dir/value.c.o"
-  )
-set(CMAKE_C_COMPILER_ID "GNU")
 
-# The include file search paths:
-set(CMAKE_C_TARGET_INCLUDE_PATH
-  "../include"
-  "../src"
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "C:/Workspace/c-workspace/bcvm/src/chunk.c" "src/CMakeFiles/bcvm_lib.dir/chunk.c.obj" "gcc" "src/CMakeFiles/bcvm_lib.dir/chunk.c.obj.d"
+  "C:/Workspace/c-workspace/bcvm/src/debug.c" "src/CMakeFiles/bcvm_lib.dir/debug.c.obj" "gcc" "src/CMakeFiles/bcvm_lib.dir/debug.c.obj.d"
+  "C:/Workspace/c-workspace/bcvm/src/main.c" "src/CMakeFiles/bcvm_lib.dir/main.c.obj" "gcc" "src/CMakeFiles/bcvm_lib.dir/main.c.obj.d"
+  "C:/Workspace/c-workspace/bcvm/src/memory.c" "src/CMakeFiles/bcvm_lib.dir/memory.c.obj" "gcc" "src/CMakeFiles/bcvm_lib.dir/memory.c.obj.d"
+  "C:/Workspace/c-workspace/bcvm/src/value.c" "src/CMakeFiles/bcvm_lib.dir/value.c.obj" "gcc" "src/CMakeFiles/bcvm_lib.dir/value.c.obj.d"
   )
 
 # Targets to which this target links.

@@ -1,1 +1,3 @@
-/usr/bin/gcc    CMakeFiles/bcvm_run.dir/chunk.c.o CMakeFiles/bcvm_run.dir/debug.c.o CMakeFiles/bcvm_run.dir/main.c.o CMakeFiles/bcvm_run.dir/memory.c.o CMakeFiles/bcvm_run.dir/value.c.o  -o bcvm_run 
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\bcvm_run.dir/objects.a
+C:\TDM-GCC-64\bin\ar.exe qc CMakeFiles\bcvm_run.dir/objects.a @CMakeFiles\bcvm_run.dir\objects1.rsp
+C:\TDM-GCC-64\bin\gcc -Wl,--whole-archive CMakeFiles\bcvm_run.dir/objects.a -Wl,--no-whole-archive -o bcvm_run.exe -Wl,--out-implib,libbcvm_run.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\bcvm_run.dir\linklibs.rsp
