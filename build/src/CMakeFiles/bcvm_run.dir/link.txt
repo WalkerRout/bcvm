@@ -1,0 +1,1 @@
+/usr/bin/gcc    CMakeFiles/bcvm_run.dir/chunk.c.o CMakeFiles/bcvm_run.dir/debug.c.o CMakeFiles/bcvm_run.dir/main.c.o CMakeFiles/bcvm_run.dir/memory.c.o CMakeFiles/bcvm_run.dir/value.c.o  -o bcvm_run 

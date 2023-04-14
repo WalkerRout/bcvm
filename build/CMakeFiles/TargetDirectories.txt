@@ -1,0 +1,6 @@
+/home/wrout/Workspace/c-workspace/bcvm/build/CMakeFiles/rebuild_cache.dir
+/home/wrout/Workspace/c-workspace/bcvm/build/CMakeFiles/edit_cache.dir
+/home/wrout/Workspace/c-workspace/bcvm/build/src/CMakeFiles/rebuild_cache.dir
+/home/wrout/Workspace/c-workspace/bcvm/build/src/CMakeFiles/edit_cache.dir
+/home/wrout/Workspace/c-workspace/bcvm/build/src/CMakeFiles/bcvm_lib.dir
+/home/wrout/Workspace/c-workspace/bcvm/build/src/CMakeFiles/bcvm_run.dir
