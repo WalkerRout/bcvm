@@ -31,6 +31,13 @@ void debug_disassemble_value_array(struct ValueArray *value_array) {
 
 static size_t disassemble_instruction(struct Chunk *chunk, const size_t offset) {
   printf("%04zd ", offset);
+
+  if(offset > 0 && chunk->lines[offset] == chunk->lines[offset - 1]) {
+    printf(" | "); // show '|' for any instruction that comes from the same source line as prev
+  } else {
+    printf("%4d ", chunk->lines[offset]);
+  }
+
   uint8_t instruction = chunk->buffer[offset];
   
   switch(instruction) {

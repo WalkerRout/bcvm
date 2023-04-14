@@ -8,24 +8,23 @@ static inline size_t type_size(void);
 
 inline void value_array_init(struct ValueArray *self) {
   self->value_count = 0;
-  self->capacity = 0;
+  self->capacity    = 0;
   self->buffer = NULL;
 }
 
 inline void value_array_free(struct ValueArray *self) {
-  size_t ts = type_size();
-  memory_reallocate(self->buffer, ts * self->capacity, 0);
+  MEMORY_FREE_ARRAY(Value, self->buffer, self->capacity);
+  value_array_init(self);
 }
 
 void value_array_write(struct ValueArray *self, Value value) {
-  size_t ts = type_size();
   size_t initial_value_count = self->value_count;
   size_t initial_capacity = self->capacity;
 
   if(initial_capacity < initial_value_count + 1) {
     // resize the backing buffer
-    self->capacity = GROW_CAPACITY(initial_capacity, VALUE_ARRAY_INITIAL_CAPACITY);
-    self->buffer = GROW_ARRAY(Value, self->buffer, ts * initial_capacity, ts * self->capacity);
+    self->capacity = MEMORY_GROW_CAPACITY(initial_capacity, VALUE_ARRAY_INITIAL_CAPACITY);
+    self->buffer = MEMORY_GROW_ARRAY(Value, self->buffer, initial_capacity, self->capacity);
   }
 
   // write a byte (0-indexed, so can just use byte_count)

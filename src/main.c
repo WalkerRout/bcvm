@@ -10,9 +10,9 @@ int main(int argc, const char *argv[]) {
   chunk_init(&chunk);
 
   size_t constant_two = chunk_add_constant(&chunk, 2.0);
-  chunk_write(&chunk, OPCODE_CONSTANT);
-  chunk_write(&chunk, constant_two);
-  chunk_write(&chunk, OPCODE_RETURN);
+  chunk_write(&chunk, OPCODE_CONSTANT, 123);
+  chunk_write(&chunk, constant_two, 123);
+  chunk_write(&chunk, OPCODE_RETURN, 123);
 
   debug_disassemble_chunk(&chunk, "test chunk");
 
