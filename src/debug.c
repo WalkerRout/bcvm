@@ -32,19 +32,19 @@ void debug_disassemble_value_array(struct ValueArray *value_array) {
 static size_t disassemble_instruction(struct Chunk *chunk, const size_t offset) {
   printf("%04zd ", offset);
 
-  if(offset > 0 && chunk->lines[offset] == chunk->lines[offset - 1]) {
+  if(offset > 0 && chunk_get_line(chunk, offset) == chunk_get_line(chunk, offset - 1)) {
     printf(" | "); // show '|' for any instruction that comes from the same source line as prev
   } else {
-    printf("%4d ", chunk->lines[offset]);
+    printf("%4d ", chunk_get_line(chunk, offset));
   }
 
   uint8_t instruction = chunk->buffer[offset];
   
   switch(instruction) {
-    case OPCODE_CONSTANT:
-      printf("at index %d - ", chunk->buffer[offset + 1]);
+    case OPCODE_CONSTANT:; // semicolons count as statements, declarations do not...
       size_t value_index = chunk->buffer[offset + 1];
       Value value = chunk->constants.buffer[value_index];
+      printf("\tat index %d - ", value_index);
       return display_two_byte_instruction("OP_CONSTANT", value, offset);
       break; // not really needed, but good structure
 
@@ -59,7 +59,7 @@ static size_t disassemble_instruction(struct Chunk *chunk, const size_t offset) 
 }
 
 static inline size_t display_one_byte_instruction(const char *instruction_name, const size_t offset) {
-  printf("%s\n", instruction_name);
+  printf("\t%s\n", instruction_name);
   return offset + 1;
 }
 
