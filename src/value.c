@@ -12,6 +12,7 @@ inline void value_array_init(struct ValueArray *self) {
 
 inline void value_array_free(struct ValueArray *self) {
   MEMORY_FREE_ARRAY(Value, self->buffer, self->value_capacity);
+  
   value_array_init(self);
 }
 

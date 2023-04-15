@@ -98,11 +98,26 @@ src/CMakeFiles/bcvm_lib.dir/debug.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/bcvm_lib.dir/debug.c.s"
 	cd /d C:\Workspace\c-workspace\bcvm\build\src && C:\TDM-GCC-64\bin\gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Workspace\c-workspace\bcvm\src\debug.c -o CMakeFiles\bcvm_lib.dir\debug.c.s
 
+src/CMakeFiles/bcvm_lib.dir/line.c.obj: src/CMakeFiles/bcvm_lib.dir/flags.make
+src/CMakeFiles/bcvm_lib.dir/line.c.obj: src/CMakeFiles/bcvm_lib.dir/includes_C.rsp
+src/CMakeFiles/bcvm_lib.dir/line.c.obj: ../src/line.c
+src/CMakeFiles/bcvm_lib.dir/line.c.obj: src/CMakeFiles/bcvm_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Workspace\c-workspace\bcvm\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object src/CMakeFiles/bcvm_lib.dir/line.c.obj"
+	cd /d C:\Workspace\c-workspace\bcvm\build\src && C:\TDM-GCC-64\bin\gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/CMakeFiles/bcvm_lib.dir/line.c.obj -MF CMakeFiles\bcvm_lib.dir\line.c.obj.d -o CMakeFiles\bcvm_lib.dir\line.c.obj -c C:\Workspace\c-workspace\bcvm\src\line.c
+
+src/CMakeFiles/bcvm_lib.dir/line.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/bcvm_lib.dir/line.c.i"
+	cd /d C:\Workspace\c-workspace\bcvm\build\src && C:\TDM-GCC-64\bin\gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Workspace\c-workspace\bcvm\src\line.c > CMakeFiles\bcvm_lib.dir\line.c.i
+
+src/CMakeFiles/bcvm_lib.dir/line.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/bcvm_lib.dir/line.c.s"
+	cd /d C:\Workspace\c-workspace\bcvm\build\src && C:\TDM-GCC-64\bin\gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Workspace\c-workspace\bcvm\src\line.c -o CMakeFiles\bcvm_lib.dir\line.c.s
+
 src/CMakeFiles/bcvm_lib.dir/main.c.obj: src/CMakeFiles/bcvm_lib.dir/flags.make
 src/CMakeFiles/bcvm_lib.dir/main.c.obj: src/CMakeFiles/bcvm_lib.dir/includes_C.rsp
 src/CMakeFiles/bcvm_lib.dir/main.c.obj: ../src/main.c
 src/CMakeFiles/bcvm_lib.dir/main.c.obj: src/CMakeFiles/bcvm_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Workspace\c-workspace\bcvm\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object src/CMakeFiles/bcvm_lib.dir/main.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Workspace\c-workspace\bcvm\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object src/CMakeFiles/bcvm_lib.dir/main.c.obj"
 	cd /d C:\Workspace\c-workspace\bcvm\build\src && C:\TDM-GCC-64\bin\gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/CMakeFiles/bcvm_lib.dir/main.c.obj -MF CMakeFiles\bcvm_lib.dir\main.c.obj.d -o CMakeFiles\bcvm_lib.dir\main.c.obj -c C:\Workspace\c-workspace\bcvm\src\main.c
 
 src/CMakeFiles/bcvm_lib.dir/main.c.i: cmake_force
@@ -117,7 +132,7 @@ src/CMakeFiles/bcvm_lib.dir/memory.c.obj: src/CMakeFiles/bcvm_lib.dir/flags.make
 src/CMakeFiles/bcvm_lib.dir/memory.c.obj: src/CMakeFiles/bcvm_lib.dir/includes_C.rsp
 src/CMakeFiles/bcvm_lib.dir/memory.c.obj: ../src/memory.c
 src/CMakeFiles/bcvm_lib.dir/memory.c.obj: src/CMakeFiles/bcvm_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Workspace\c-workspace\bcvm\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object src/CMakeFiles/bcvm_lib.dir/memory.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Workspace\c-workspace\bcvm\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object src/CMakeFiles/bcvm_lib.dir/memory.c.obj"
 	cd /d C:\Workspace\c-workspace\bcvm\build\src && C:\TDM-GCC-64\bin\gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/CMakeFiles/bcvm_lib.dir/memory.c.obj -MF CMakeFiles\bcvm_lib.dir\memory.c.obj.d -o CMakeFiles\bcvm_lib.dir\memory.c.obj -c C:\Workspace\c-workspace\bcvm\src\memory.c
 
 src/CMakeFiles/bcvm_lib.dir/memory.c.i: cmake_force
@@ -132,7 +147,7 @@ src/CMakeFiles/bcvm_lib.dir/value.c.obj: src/CMakeFiles/bcvm_lib.dir/flags.make
 src/CMakeFiles/bcvm_lib.dir/value.c.obj: src/CMakeFiles/bcvm_lib.dir/includes_C.rsp
 src/CMakeFiles/bcvm_lib.dir/value.c.obj: ../src/value.c
 src/CMakeFiles/bcvm_lib.dir/value.c.obj: src/CMakeFiles/bcvm_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Workspace\c-workspace\bcvm\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object src/CMakeFiles/bcvm_lib.dir/value.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Workspace\c-workspace\bcvm\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object src/CMakeFiles/bcvm_lib.dir/value.c.obj"
 	cd /d C:\Workspace\c-workspace\bcvm\build\src && C:\TDM-GCC-64\bin\gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/CMakeFiles/bcvm_lib.dir/value.c.obj -MF CMakeFiles\bcvm_lib.dir\value.c.obj.d -o CMakeFiles\bcvm_lib.dir\value.c.obj -c C:\Workspace\c-workspace\bcvm\src\value.c
 
 src/CMakeFiles/bcvm_lib.dir/value.c.i: cmake_force
@@ -147,6 +162,7 @@ src/CMakeFiles/bcvm_lib.dir/value.c.s: cmake_force
 bcvm_lib_OBJECTS = \
 "CMakeFiles/bcvm_lib.dir/chunk.c.obj" \
 "CMakeFiles/bcvm_lib.dir/debug.c.obj" \
+"CMakeFiles/bcvm_lib.dir/line.c.obj" \
 "CMakeFiles/bcvm_lib.dir/main.c.obj" \
 "CMakeFiles/bcvm_lib.dir/memory.c.obj" \
 "CMakeFiles/bcvm_lib.dir/value.c.obj"
@@ -156,12 +172,13 @@ bcvm_lib_EXTERNAL_OBJECTS =
 
 src/libbcvm_lib.a: src/CMakeFiles/bcvm_lib.dir/chunk.c.obj
 src/libbcvm_lib.a: src/CMakeFiles/bcvm_lib.dir/debug.c.obj
+src/libbcvm_lib.a: src/CMakeFiles/bcvm_lib.dir/line.c.obj
 src/libbcvm_lib.a: src/CMakeFiles/bcvm_lib.dir/main.c.obj
 src/libbcvm_lib.a: src/CMakeFiles/bcvm_lib.dir/memory.c.obj
 src/libbcvm_lib.a: src/CMakeFiles/bcvm_lib.dir/value.c.obj
 src/libbcvm_lib.a: src/CMakeFiles/bcvm_lib.dir/build.make
 src/libbcvm_lib.a: src/CMakeFiles/bcvm_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Workspace\c-workspace\bcvm\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C static library libbcvm_lib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Workspace\c-workspace\bcvm\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking C static library libbcvm_lib.a"
 	cd /d C:\Workspace\c-workspace\bcvm\build\src && $(CMAKE_COMMAND) -P CMakeFiles\bcvm_lib.dir\cmake_clean_target.cmake
 	cd /d C:\Workspace\c-workspace\bcvm\build\src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\bcvm_lib.dir\link.txt --verbose=$(VERBOSE)
 

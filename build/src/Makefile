@@ -197,6 +197,33 @@ debug.c.s:
 	cd /d C:\Workspace\c-workspace\bcvm\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\bcvm_lib.dir\build.make src/CMakeFiles/bcvm_lib.dir/debug.c.s
 .PHONY : debug.c.s
 
+line.obj: line.c.obj
+.PHONY : line.obj
+
+# target to build an object file
+line.c.obj:
+	cd /d C:\Workspace\c-workspace\bcvm\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\bcvm_run.dir\build.make src/CMakeFiles/bcvm_run.dir/line.c.obj
+	cd /d C:\Workspace\c-workspace\bcvm\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\bcvm_lib.dir\build.make src/CMakeFiles/bcvm_lib.dir/line.c.obj
+.PHONY : line.c.obj
+
+line.i: line.c.i
+.PHONY : line.i
+
+# target to preprocess a source file
+line.c.i:
+	cd /d C:\Workspace\c-workspace\bcvm\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\bcvm_run.dir\build.make src/CMakeFiles/bcvm_run.dir/line.c.i
+	cd /d C:\Workspace\c-workspace\bcvm\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\bcvm_lib.dir\build.make src/CMakeFiles/bcvm_lib.dir/line.c.i
+.PHONY : line.c.i
+
+line.s: line.c.s
+.PHONY : line.s
+
+# target to generate assembly for a file
+line.c.s:
+	cd /d C:\Workspace\c-workspace\bcvm\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\bcvm_run.dir\build.make src/CMakeFiles/bcvm_run.dir/line.c.s
+	cd /d C:\Workspace\c-workspace\bcvm\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\bcvm_lib.dir\build.make src/CMakeFiles/bcvm_lib.dir/line.c.s
+.PHONY : line.c.s
+
 main.obj: main.c.obj
 .PHONY : main.obj
 
@@ -294,6 +321,9 @@ help:
 	@echo ... debug.obj
 	@echo ... debug.i
 	@echo ... debug.s
+	@echo ... line.obj
+	@echo ... line.i
+	@echo ... line.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

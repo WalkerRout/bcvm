@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Workspace/c-workspace/bcvm/src/chunk.c" "src/CMakeFiles/bcvm_run.dir/chunk.c.obj" "gcc" "src/CMakeFiles/bcvm_run.dir/chunk.c.obj.d"
   "C:/Workspace/c-workspace/bcvm/src/debug.c" "src/CMakeFiles/bcvm_run.dir/debug.c.obj" "gcc" "src/CMakeFiles/bcvm_run.dir/debug.c.obj.d"
+  "C:/Workspace/c-workspace/bcvm/src/line.c" "src/CMakeFiles/bcvm_run.dir/line.c.obj" "gcc" "src/CMakeFiles/bcvm_run.dir/line.c.obj.d"
   "C:/Workspace/c-workspace/bcvm/src/main.c" "src/CMakeFiles/bcvm_run.dir/main.c.obj" "gcc" "src/CMakeFiles/bcvm_run.dir/main.c.obj.d"
   "C:/Workspace/c-workspace/bcvm/src/memory.c" "src/CMakeFiles/bcvm_run.dir/memory.c.obj" "gcc" "src/CMakeFiles/bcvm_run.dir/memory.c.obj.d"
   "C:/Workspace/c-workspace/bcvm/src/value.c" "src/CMakeFiles/bcvm_run.dir/value.c.obj" "gcc" "src/CMakeFiles/bcvm_run.dir/value.c.obj.d"

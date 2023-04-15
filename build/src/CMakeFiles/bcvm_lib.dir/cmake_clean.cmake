@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/bcvm_lib.dir/chunk.c.obj.d"
   "CMakeFiles/bcvm_lib.dir/debug.c.obj"
   "CMakeFiles/bcvm_lib.dir/debug.c.obj.d"
+  "CMakeFiles/bcvm_lib.dir/line.c.obj"
+  "CMakeFiles/bcvm_lib.dir/line.c.obj.d"
   "CMakeFiles/bcvm_lib.dir/main.c.obj"
   "CMakeFiles/bcvm_lib.dir/main.c.obj.d"
   "CMakeFiles/bcvm_lib.dir/memory.c.obj"

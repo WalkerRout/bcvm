@@ -2,15 +2,10 @@
 #define CHUNK_H
 
 #include "common.h"
+#include "line.h"
 #include "value.h"
 
 #define CHUNK_INITIAL_CAPACITY 8
-#define CHUNK_LINE_INITIAL_CAPACITY 4
-
-struct Line {
-  size_t line;
-  size_t line_count;
-};
 
 struct Chunk {
   // dynamic array
@@ -18,13 +13,8 @@ struct Chunk {
   size_t byte_capacity;
   uint8_t *buffer;
 
-  // lines
-  size_t line_struct_count;
-  size_t line_struct_capacity;
-  struct Line *lines;
-
-  // constant pool
-  struct ValueArray constants;
+  struct LineArray lines; // compressed line representation for bytecode in buffer
+  struct ValueArray constants; // constant pool
 };
 
 void chunk_init(struct Chunk *self);

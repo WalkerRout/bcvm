@@ -21,6 +21,7 @@ src/CMakeFiles/bcvm_run.dir/chunk.c.obj: ../src/chunk.c \
   C:/TDM-GCC-64/x86_64-w64-mingw32/include/stddef.h \
   C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stdint.h \
   C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdint.h \
+  ../include/line.h \
   ../include/value.h \
   ../include/memory.h
 
@@ -45,11 +46,12 @@ src/CMakeFiles/bcvm_run.dir/debug.c.obj: ../src/debug.c \
   C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stdint.h \
   C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdint.h \
   ../include/chunk.h \
+  ../include/line.h \
   ../include/value.h \
   ../include/chunk.h \
   ../include/opcode.h
 
-src/CMakeFiles/bcvm_run.dir/main.c.obj: ../src/main.c \
+src/CMakeFiles/bcvm_run.dir/line.c.obj: ../src/line.c \
   C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdio.h \
   C:/TDM-GCC-64/x86_64-w64-mingw32/include/crtdefs.h \
   C:/TDM-GCC-64/x86_64-w64-mingw32/include/corecrt.h \
@@ -62,68 +64,13 @@ src/CMakeFiles/bcvm_run.dir/main.c.obj: ../src/main.c \
   C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw_off_t.h \
   C:/TDM-GCC-64/x86_64-w64-mingw32/include/swprintf.inl \
   C:/TDM-GCC-64/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
-  ../include/chunk.h \
-  ../include/common.h \
-  C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stdbool.h \
-  C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stddef.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/stddef.h \
-  C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stdint.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdint.h \
-  ../include/value.h \
-  ../include/value.h \
-  ../include/opcode.h \
-  ../include/debug.h \
-  ../include/chunk.h
-
-src/CMakeFiles/bcvm_run.dir/memory.c.obj: ../src/memory.c \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdio.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/crtdefs.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/corecrt.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw_mac.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw_secapi.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/vadefs.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/sdks/_mingw_directx.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw_off_t.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/swprintf.inl \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdlib.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/corecrt_wstdlib.h \
-  C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include-fixed/limits.h \
-  C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include-fixed/syslimits.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/limits.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/malloc.h \
-  ../include/memory.h \
+  ../include/line.h \
   ../include/common.h \
   C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stdbool.h \
   C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stddef.h \
   C:/TDM-GCC-64/x86_64-w64-mingw32/include/stddef.h \
   C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stdint.h \
   C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdint.h
-
-src/CMakeFiles/bcvm_run.dir/value.c.obj: ../src/value.c \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdio.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/crtdefs.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/corecrt.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw_mac.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw_secapi.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/vadefs.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/sdks/_mingw_directx.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw_off_t.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/swprintf.inl \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
-  ../include/value.h \
-  ../include/common.h \
-  C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stdbool.h \
-  C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stddef.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/stddef.h \
-  C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stdint.h \
-  C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdint.h \
-  ../include/memory.h
 
 
 C:/TDM-GCC-64/x86_64-w64-mingw32/include/corecrt.h:
@@ -138,19 +85,17 @@ C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw_secapi.h:
 
 C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdio.h:
 
+../src/line.c:
+
 C:/TDM-GCC-64/x86_64-w64-mingw32/include/sdks/_mingw_directx.h:
 
 C:/TDM-GCC-64/x86_64-w64-mingw32/include/crtdefs.h:
 
 C:/TDM-GCC-64/x86_64-w64-mingw32/include/vadefs.h:
 
-C:/TDM-GCC-64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h:
-
 C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw_mac.h:
 
 C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw.h:
-
-../src/memory.c:
 
 C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw_off_t.h:
 
@@ -164,34 +109,20 @@ C:/TDM-GCC-64/x86_64-w64-mingw32/include/sec_api/stdio_s.h:
 
 C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stdbool.h:
 
-C:/TDM-GCC-64/x86_64-w64-mingw32/include/corecrt_wstdlib.h:
-
 ../src/debug.c:
 
 C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stddef.h:
 
 C:/TDM-GCC-64/x86_64-w64-mingw32/include/stddef.h:
 
-C:/TDM-GCC-64/x86_64-w64-mingw32/include/malloc.h:
-
 C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/stdint.h:
 
 C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdint.h:
+
+../include/line.h:
 
 ../include/value.h:
 
 ../include/debug.h:
 
 ../include/opcode.h:
-
-../src/main.c:
-
-C:/TDM-GCC-64/x86_64-w64-mingw32/include/limits.h:
-
-C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdlib.h:
-
-C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include-fixed/limits.h:
-
-C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include-fixed/syslimits.h:
-
-../src/value.c:
