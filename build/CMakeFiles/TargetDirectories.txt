@@ -1,6 +1,0 @@
-C:/Workspace/c-workspace/bcvm/build/CMakeFiles/edit_cache.dir
-C:/Workspace/c-workspace/bcvm/build/CMakeFiles/rebuild_cache.dir
-C:/Workspace/c-workspace/bcvm/build/src/CMakeFiles/bcvm_run.dir
-C:/Workspace/c-workspace/bcvm/build/src/CMakeFiles/bcvm_lib.dir
-C:/Workspace/c-workspace/bcvm/build/src/CMakeFiles/edit_cache.dir
-C:/Workspace/c-workspace/bcvm/build/src/CMakeFiles/rebuild_cache.dir
