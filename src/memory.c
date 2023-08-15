@@ -5,6 +5,8 @@
 #include "memory.h"
 
 void *memory_reallocate(void *buffer, size_t old_size, size_t new_size) {
+  (void) old_size;
+
   if(new_size == 0) {
     free(buffer);
     return NULL;

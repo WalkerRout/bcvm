@@ -4,7 +4,6 @@ cmake_minimum_required(VERSION 3.5.1)
 # set to use C compiler
 project(bcvm C CXX)
 
-
 if(WIN32)
   set(CCompilerPath "C:/TDM-GCC-64/bin/gcc")
 else()
@@ -14,6 +13,8 @@ endif()
 set(CMAKE_C_COMPILER ${CCompilerPath})
 
 set(EXEC bcvm)
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic")
 
 # I../include
 # L../lib

@@ -10,7 +10,7 @@ typedef double Value;
 struct ValueArray {
   size_t value_count;
   size_t value_capacity;
-  Value* buffer;
+  Value *buffer;
 };
 
 void value_array_init(struct ValueArray *self);

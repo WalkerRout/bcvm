@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "chunk.h"
+#include "opcode.h"
 #include "memory.h"
 
 inline void chunk_init(struct Chunk *self) {
@@ -45,6 +46,22 @@ size_t chunk_add_constant(struct Chunk *self, const Value constant) {
   return self->constants.value_count - 1;
 }
 
+size_t chunk_write_constant(struct Chunk *self, const Value constant, const size_t line) {
+  size_t value_index = chunk_add_constant(self, constant);
+
+  if (self->constants.value_count >= 0xFF) {
+    chunk_write(self, OPCODE_CONSTANT_LONG, line);
+    chunk_write(self, (value_index >> 16) & 0xFF, line);
+    chunk_write(self, (value_index >> 8)  & 0xFF, line);
+  } else {
+    chunk_write(self, OPCODE_CONSTANT, line);
+  }
+
+  chunk_write(self, value_index & 0xFF, line);
+
+  return self->constants.value_count - 1;
+}
+
 size_t chunk_get_line(struct Chunk *const self, const size_t offset) {
   size_t line_struct_count = self->lines.line_struct_count;
 
@@ -64,5 +81,3 @@ size_t chunk_get_line(struct Chunk *const self, const size_t offset) {
 
   return line;
 }
-
-// --- FILE-LOCAL HELPER FUNCTIONS ---
