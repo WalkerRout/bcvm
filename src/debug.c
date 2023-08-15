@@ -56,6 +56,26 @@ size_t debug_disassemble_instruction(struct Chunk *chunk, const size_t offset) {
       return display_four_byte_instruction("OP_CONSTANT_LONG", value, offset);
     } break; // not really needed, but good structure
 
+    case OPCODE_ADD: {
+      return display_one_byte_instruction("OP_ADD", offset);
+    } break;
+
+    case OPCODE_SUBTRACT: {
+      return display_one_byte_instruction("OP_SUBTRACT", offset);
+    } break;
+
+    case OPCODE_MULTIPLY: {
+      return display_one_byte_instruction("OP_MULTIPLY", offset);
+    } break;
+
+    case OPCODE_DIVIDE: {
+      return display_one_byte_instruction("OP_DIVIDE", offset);
+    } break;
+
+    case OPCODE_NEGATE: {
+      return display_one_byte_instruction("OP_NEGATE", offset);
+    } break;
+
     case OPCODE_RETURN: {
       return display_one_byte_instruction("OP_RETURN", offset);
     } break;

@@ -10,15 +10,29 @@ static struct VM global_vm;
 
 // file local prototypes
 static enum InterpretResult vm_run(void);
+static void vm_reset_stack(void);
 
-void vm_init(void) {}
+void vm_init(void) {
+  vm_reset_stack();
+}
 
 void vm_free(void) {}
 
 enum InterpretResult vm_interpret(struct Chunk *chunk) {
   global_vm.chunk = chunk;
   global_vm.ip = global_vm.chunk->buffer;
+
   return vm_run();
+}
+
+void vm_push(Value value) {
+  *global_vm.stack_top = value;
+  global_vm.stack_top += 1;
+}
+
+Value vm_pop() {
+  global_vm.stack_top -= 1;
+  return *global_vm.stack_top;
 }
 
 // file local functions
@@ -29,10 +43,23 @@ static enum InterpretResult vm_run(void) {
 
 #define READ_BYTE()     (*ip++)
 #define READ_CONSTANT() (values[READ_BYTE()])
+#define BINARY_OP(op)     do { \
+    double b = vm_pop();       \
+    double a = vm_pop();       \
+    vm_push(a op b);           \
+  } while(0)
 
   printf("\n== Running Virtal Machine ==\n");
   for (;;) {
 #ifdef DEBUG_TRACE_EXECUTION
+    printf("          ");
+    for (Value *slot = global_vm.stack; slot < global_vm.stack_top; ++slot) {
+      printf("[ ");
+      value_print(*slot);
+      printf(" ]");
+    }
+    printf("\n");
+
     debug_disassemble_instruction(global_vm.chunk, (size_t)(ip - global_vm.chunk->buffer));
 #endif
 
@@ -40,8 +67,7 @@ static enum InterpretResult vm_run(void) {
     switch (instruction = READ_BYTE()) {
       case OPCODE_CONSTANT: {
         Value constant = READ_CONSTANT();
-        //value_print(constant);
-        //printf("\n");
+        vm_push(constant);
       } break;
 
       case OPCODE_CONSTANT_LONG: {
@@ -51,12 +77,23 @@ static enum InterpretResult vm_run(void) {
           (READ_BYTE() << 0);
 
         Value constant = values[value_index];
-        //value_print(constant);
-        //printf("\n");
+        vm_push(constant);
       } break;
 
-      case OPCODE_RETURN: {
-        return INTERPRET_RESULT_OK;
+      case OPCODE_ADD: { BINARY_OP(+); } break;
+
+      case OPCODE_SUBTRACT: { BINARY_OP(-); } break;
+
+      case OPCODE_MULTIPLY: { BINARY_OP(*); } break;
+
+      case OPCODE_DIVIDE: { BINARY_OP(/); } break;
+
+      case OPCODE_NEGATE: { global_vm.stack_top[-1] = -global_vm.stack_top[-1]; } break; // top of stack, index back by 1
+
+      case OPCODE_RETURN: { 
+        value_print(vm_pop());
+        printf("\n");
+        return INTERPRET_RESULT_OK; 
       } break;
 
       default: {}
@@ -67,4 +104,9 @@ static enum InterpretResult vm_run(void) {
 
 #undef READ_BYTE
 #undef READ_CONSTANT
+#undef BINARY_OP
+}
+
+static void vm_reset_stack(void) {
+  global_vm.stack_top = global_vm.stack;
 }
