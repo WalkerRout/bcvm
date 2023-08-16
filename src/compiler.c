@@ -58,8 +58,8 @@ static struct Chunk *current_chunk(void);
 static void emit_byte(uint8_t byte);
 static void emit_bytes(uint8_t byte_a, uint8_t byte_b);
 static void emit_return(void);
-static void emit_constant(Value value);
-static uint8_t make_constant(Value value);
+static void emit_constant(struct Value value);
+static uint8_t make_constant(struct Value value);
 static struct ParseRule* get_rule(enum TokenType type);
 
 struct ParseRule parser_rules[] = {
@@ -129,8 +129,8 @@ static void compiler_end_compile(void) {
 }
 
 static void parser_init(void) {
-  global_parser.had_error  = 0;
-  global_parser.panic_mode = 0;
+  global_parser.had_error  = FALSE;
+  global_parser.panic_mode = FALSE;
   parser_advance();
 }
 
@@ -151,7 +151,7 @@ static void parser_expression(void) {
 
 static void parser_expression_number(void) {
   double value = strtod(global_parser.previous.start, NULL);
-  emit_constant(value);
+  emit_constant(VALUE_NUMBER(value));
 }
 
 static void parser_expression_grouping(void) {
@@ -215,7 +215,7 @@ static void parser_consume(enum TokenType type, const char *error_message) {
 
 static void parser_error_at(struct Token *token, const char *error_message) {
   if (global_parser.panic_mode) return;
-  global_parser.panic_mode = 1;
+  global_parser.panic_mode = TRUE;
 
   fprintf(stderr, "[line %lu] Error ", token->line);
 
@@ -229,7 +229,7 @@ static void parser_error_at(struct Token *token, const char *error_message) {
   }
 
   fprintf(stderr, ": %s\n", error_message);
-  global_parser.had_error = 1;
+  global_parser.had_error = TRUE;
 }
 
 static void parser_error_at_current(const char *error_message) {
@@ -257,11 +257,11 @@ static void emit_return(void) {
   emit_byte(OPCODE_RETURN);
 }
 
-static void emit_constant(Value value) {
-  emit_bytes(OPCODE_CONSTANT, make_constant(value));
+static void emit_constant(struct Value value) {
+  emit_bytes(OPCODE_CONSTANT, value.as.number);
 }
 
-static uint8_t make_constant(Value value) {
+static uint8_t make_constant(struct Value value) {
   size_t constant = chunk_add_constant(current_chunk(), value);
   if (constant > UINT8_MAX) {
     parser_error_at_previous("Error - too many constants in one chunk");

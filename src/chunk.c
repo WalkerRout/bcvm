@@ -40,13 +40,13 @@ void chunk_write(struct Chunk *self, const uint8_t byte, const size_t line) {
   line_array_write(&self->lines, line);
 }
 
-size_t chunk_add_constant(struct Chunk *self, const Value constant) {
+size_t chunk_add_constant(struct Chunk *self, const struct Value constant) {
   value_array_write(&self->constants, constant);
   // return index where the constant was inserted for future access
   return self->constants.value_count - 1;
 }
 
-size_t chunk_write_constant(struct Chunk *self, const Value constant, const size_t line) {
+size_t chunk_write_constant(struct Chunk *self, const struct Value constant, const size_t line) {
   size_t value_index = chunk_add_constant(self, constant);
 
   if (self->constants.value_count >= 0xFF) {
