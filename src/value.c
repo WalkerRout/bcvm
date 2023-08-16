@@ -22,7 +22,7 @@ uint8_t value_equal(struct Value a, struct Value b) {
 
 inline void value_array_init(struct ValueArray *self) {
   self->value_count = 0;
-  self->value_capacity    = 0;
+  self->value_capacity = 0;
   self->buffer = NULL;
 }
 

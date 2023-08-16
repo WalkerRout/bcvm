@@ -82,7 +82,7 @@ static enum InterpretResult vm_run(void) {
   printf("\n== Running Virtal Machine ==\n");
   for (;;) {
 #ifdef DEBUG_TRACE_EXECUTION
-    
+    printf("stack:\t");
     for (struct Value *slot = global_vm.stack; slot < global_vm.stack_top; ++slot) {
       printf("[ ");
       value_print(*slot);
@@ -145,7 +145,7 @@ static enum InterpretResult vm_run(void) {
         vm_push(VALUE_NUMBER(-vm_pop().as.number));
       } break; // top of stack, index back by 1
 
-      case OPCODE_RETURN: { 
+      case OPCODE_RETURN: {
         value_print(vm_pop());
         printf("\n");
         return INTERPRET_RESULT_OK; 
@@ -194,3 +194,4 @@ static double add(double a, double b)      { return a + b;  }
 static double subtract(double a, double b) { return a - b;  }
 static double multiply(double a, double b) { return a * b;  }
 static double divide(double a, double b)   { return a / b;  }
+
