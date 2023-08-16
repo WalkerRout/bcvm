@@ -4,7 +4,6 @@
 #include <string.h>
 
 #include "repl.h"
-
 #include "vm.h"
 
 // file local prototypes
@@ -15,20 +14,20 @@ void repl_run(void) {
   for (;;) {
     printf("> ");
 
-    if (!fgets(line, sizeof(line), stdin)) {
+    if (!fgets(line, sizeof(line), stdin) ||
+        strncmp(line, "exit", 4) == 0) {
       printf("\n");
       break;
     }
 
-    // TODO: ACCEPT CONST CHAR * INSTEAD OF STRUCT CHUNK *
-    // vm_interpret(line);
+    vm_interpret(line);
   }
 }
 
 void repl_run_file(const char *file_path) {
   const char *source = read_file(file_path);
   enum InterpretResult result = vm_interpret(source);
-  free(source); 
+  free(source);
 
   if (result == INTERPRET_RESULT_COMPILE_ERROR) exit(65);
   if (result == INTERPRET_RESULT_RUNTIME_ERROR) exit(70);

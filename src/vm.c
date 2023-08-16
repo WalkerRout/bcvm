@@ -4,9 +4,10 @@
 #include "vm.h"
 #include "debug.h"
 #include "opcode.h"
+#include "compiler.h"
 
 // global singleton instance
-static struct VM global_vm;
+static struct VM global_vm = {0};
 
 // file local prototypes
 static enum InterpretResult vm_run(void);
@@ -18,11 +19,22 @@ void vm_init(void) {
 
 void vm_free(void) {}
 
-enum InterpretResult vm_interpret(struct Chunk *chunk) {
-  global_vm.chunk = chunk;
+enum InterpretResult vm_interpret(const char *source) {
+  struct Chunk chunk = {0};
+  chunk_init(&chunk);
+
+  if (!compiler_compile(source, &chunk)) {
+    chunk_free(&chunk);
+    return INTERPRET_RESULT_COMPILE_ERROR;
+  }
+
+  global_vm.chunk = &chunk;
   global_vm.ip = global_vm.chunk->buffer;
 
-  return vm_run();
+  enum InterpretResult result = vm_run();
+
+  chunk_free(&chunk);
+  return result;
 }
 
 void vm_push(Value value) {

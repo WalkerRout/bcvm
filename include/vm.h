@@ -23,7 +23,7 @@ struct VM {
 // static singleton instance is modified
 void vm_init(void);
 void vm_free(void);
-enum InterpretResult vm_interpret(struct Chunk *chunk);
+enum InterpretResult vm_interpret(const char *source);
 void vm_push(Value value);
 Value vm_pop();
 
