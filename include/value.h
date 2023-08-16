@@ -17,19 +17,19 @@ struct Value {
   union {
     uint8_t boolean;
     double number;
-    //struct Object *object;
+    struct Object *object;
   } as;
 };
 
 #define VALUE_IS_NIL(value)     ((value).type == VALUE_TYPE_NIL)
 #define VALUE_IS_BOOL(value)    ((value).type == VALUE_TYPE_BOOL)
 #define VALUE_IS_NUMBER(value)  ((value).type == VALUE_TYPE_NUMBER)
-//#define VALUE_IS_OBJECT(value)  ((value).type == VALUE_TYPE_OBJECT)
+#define VALUE_IS_OBJECT(value)  ((value).type == VALUE_TYPE_OBJECT)
 
 #define VALUE_NIL()          ((struct Value) {.type = VALUE_TYPE_NIL, .as = {.number = 0}})
-#define VALUE_BOOL(value)    ((struct Value) {.type = VALUE_TYPE_BOOL, .as = {.boolean = value}})
-#define VALUE_NUMBER(value)  ((struct Value) {.type = VALUE_TYPE_NUMBER, .as = {.number = value}})
-//#define VALUE_OBJECT(object) ((struct Value) {.type = VALUE_TYPE_OBJECT, {.object = (struct Object *) object}})
+#define VALUE_BOOL(value)    ((struct Value) {.type = VALUE_TYPE_BOOL, .as = {.boolean = (value)}})
+#define VALUE_NUMBER(value)  ((struct Value) {.type = VALUE_TYPE_NUMBER, .as = {.number = (value)}})
+#define VALUE_OBJECT(obj)    ((struct Value) {.type = VALUE_TYPE_OBJECT, {.object = (struct Object *) (obj)}})
 
 uint8_t value_equal(struct Value a, struct Value b);
 

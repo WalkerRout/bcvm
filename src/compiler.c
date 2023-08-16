@@ -7,6 +7,7 @@
 #include "scanner.h"
 #include "opcode.h"
 #include "debug.h"
+#include "object.h"
 
 struct Parser {
   struct Token current;
@@ -46,6 +47,7 @@ static void parser_init(void);
 static void parser_advance(void);
 static void parser_expression(void);
 static void parser_expression_number(void);
+static void parser_expression_string(void);
 static void parser_expression_grouping(void);
 static void parser_expression_unary(void);
 static void parser_expression_binary(void);
@@ -84,7 +86,7 @@ struct ParseRule parser_rules[] = {
   [TOKEN_TYPE_LESS]          = {NULL, parser_expression_binary, PRECEDENCE_COMPARISON},
   [TOKEN_TYPE_LESS_EQUAL]    = {NULL, parser_expression_binary, PRECEDENCE_COMPARISON},
   [TOKEN_TYPE_IDENTIFIER]    = {NULL, NULL, PRECEDENCE_NONE},
-  [TOKEN_TYPE_STRING]        = {NULL, NULL, PRECEDENCE_NONE},
+  [TOKEN_TYPE_STRING]        = {parser_expression_string, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_NUMBER]        = {parser_expression_number, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_AND]           = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_CLASS]         = {NULL, NULL, PRECEDENCE_NONE},
@@ -153,6 +155,17 @@ static void parser_expression(void) {
 static void parser_expression_number(void) {
   double value = strtod(global_parser.previous.start, NULL);
   emit_constant(VALUE_NUMBER(value));
+}
+
+static void parser_expression_string(void) {
+  emit_constant(
+    VALUE_OBJECT(
+      object_copy_string(
+        global_parser.previous.start + 1,
+        global_parser.previous.length - 2
+      )
+    )
+  );
 }
 
 static void parser_expression_grouping(void) {

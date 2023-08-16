@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <string.h>
 #include <stdarg.h>
 
 #include "vm.h"
@@ -7,16 +8,19 @@
 #include "opcode.h"
 #include "scanner.h"
 #include "compiler.h"
+#include "object.h"
+#include "memory.h"
 
-// global singleton instance
-static struct VM global_vm = {0};
-
+// global singleton instance (declared extern in header)
+struct VM global_vm = {0};
+ 
 // file local prototypes
 static enum InterpretResult vm_run(void);
 static void vm_reset_stack(void);
 static struct Value vm_peek(size_t distance);
 static void vm_runtime_error(const char *format, ...);
 static uint8_t is_falsey(struct Value value);
+static void string_concatenate(void);
 // binary op functions
 static uint8_t gt(double a, double b);
 static uint8_t gt_eq(double a, double b);
@@ -29,9 +33,12 @@ static double divide(double a, double b);
 
 void vm_init(void) {
   vm_reset_stack();
+  global_vm.objects = NULL;
 }
 
-void vm_free(void) {}
+void vm_free(void) {
+  object_free_objects();
+}
 
 enum InterpretResult vm_interpret(const char *source) {
   struct Chunk chunk = {0};
@@ -131,7 +138,18 @@ static enum InterpretResult vm_run(void) {
       case OPCODE_LESS:          BINARY_OP(VALUE_BOOL, lt);    break;
       case OPCODE_LESS_EQUAL:    BINARY_OP(VALUE_BOOL, lt_eq); break; // a <= b <-> !(a > b)
 
-      case OPCODE_ADD:      BINARY_OP(VALUE_NUMBER, add);      break;
+      case OPCODE_ADD: {
+        if (OBJECT_IS_OBJECT_STRING(vm_peek(0)) && OBJECT_IS_OBJECT_STRING(vm_peek(1))) {
+          string_concatenate();
+        } else if (VALUE_IS_NUMBER(vm_peek(0)) && VALUE_IS_NUMBER(vm_peek(1))) {
+          double b = vm_pop().as.number;
+          double a = vm_pop().as.number;
+          vm_push(VALUE_NUMBER(a + b));
+        } else {
+          vm_runtime_error("Error - operands must be two numbers or two strings");
+          return INTERPRET_RESULT_RUNTIME_ERROR;
+        }
+      } break;
       case OPCODE_SUBTRACT: BINARY_OP(VALUE_NUMBER, subtract); break;
       case OPCODE_MULTIPLY: BINARY_OP(VALUE_NUMBER, multiply); break;
       case OPCODE_DIVIDE:   BINARY_OP(VALUE_NUMBER, divide);   break;
@@ -184,6 +202,20 @@ static void vm_runtime_error(const char *format, ...) {
 static uint8_t is_falsey(struct Value value) {
   // && short circuits, access is safe
   return VALUE_IS_NIL(value) || (VALUE_IS_BOOL(value) && !value.as.boolean);
+}
+
+static void string_concatenate(void) {
+  struct ObjectString *b = OBJECT_STRING_FROM_VALUE(vm_pop());
+  struct ObjectString *a = OBJECT_STRING_FROM_VALUE(vm_pop());
+
+  size_t length = a->length + b->length;
+  char *chars = MEMORY_ALLOCATE(char, length + 1);
+  memcpy(chars, a->buffer, a->length);
+  memcpy(chars + a->length, b->buffer, b->length);
+  chars[length] = '\0';
+
+  struct ObjectString *result = object_move_string(chars, length);
+  vm_push(VALUE_OBJECT(result));
 }
 
 static uint8_t gt(double a, double b)      { return a > b;  }

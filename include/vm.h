@@ -18,7 +18,10 @@ struct VM {
   uint8_t *ip; // instruction pointer
   struct Value stack[STACK_MAX];
   struct Value *stack_top;
+  struct Object *objects; // list of allocated object nodes
 };
+
+extern struct VM global_vm;
 
 // static singleton instance is modified
 void vm_init(void);
