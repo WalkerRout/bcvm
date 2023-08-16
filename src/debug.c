@@ -13,38 +13,41 @@ static inline size_t display_four_byte_instruction(const char *instruction_name,
 
 void debug_disassemble_chunk(struct Chunk *chunk, const char *message) {
   printf("== %s ==\n", message);
-  for(size_t offset = 0; offset < chunk->byte_count;)
+  for(size_t offset = 0; offset < chunk->byte_count;) {
     offset = debug_disassemble_instruction(chunk, offset);
+  }
 
   if(chunk->constants.value_count > 0)
-    debug_disassemble_value_array(&chunk->constants);
+    debug_disassemble_value_array(&chunk->constants, message);
 }
 
-void debug_disassemble_value_array(struct ValueArray *value_array) {
-  printf("== ValueArray ==\n");
+void debug_disassemble_value_array(struct ValueArray *value_array, const char *message) {
+  printf("== %s ==\n", message);
   for(size_t i = 0; i < value_array->value_count; ++i)
     printf("%lf ", value_array->buffer[i]);
   printf("\n");
 }
 
 size_t debug_disassemble_instruction(struct Chunk *chunk, const size_t offset) {
-  printf("%04d ", offset);
+  printf("%04lu", offset);
 
   if(offset > 0 && chunk_get_line(chunk, offset) == chunk_get_line(chunk, offset - 1))
-    printf(" | "); // show '|' for any instruction that comes from the same source line as prev
+    printf("   | "); // show '|' for any instruction that comes from the same source line as prev
   else
-    printf("%4d ", chunk_get_line(chunk, offset));
+    printf("%4lu ", chunk_get_line(chunk, offset));
 
+  assert(offset < chunk->byte_count);
   uint8_t instruction = chunk->buffer[offset];
-  
+
   switch(instruction) {
     case OPCODE_CONSTANT: {
+      assert(offset+1 < chunk->byte_count);
       size_t value_index = chunk->buffer[offset + 1];
       Value value = chunk->constants.buffer[value_index];
       printf("\tat index %lu - ", value_index);
       return display_two_byte_instruction("OP_CONSTANT", value, offset);
     } break; // not really needed, but good structure
-
+    
     case OPCODE_CONSTANT_LONG: {
       size_t value_index = 
         (chunk->buffer[offset + 3] << 0)  |
@@ -85,6 +88,7 @@ size_t debug_disassemble_instruction(struct Chunk *chunk, const size_t offset) {
       return offset + 1;
     }
   }
+  return offset + 1;
 }
 
 // file local functions

@@ -5,6 +5,12 @@
 
 #define VALUE_ARRAY_INITIAL_CAPACITY 8
 
+enum ValueType {
+  VALUE_TYPE_BOOL,
+  VALUE_TYPE_NIL, 
+  VALUE_TYPE_NUMBER,
+};
+
 typedef double Value;
 
 struct ValueArray {

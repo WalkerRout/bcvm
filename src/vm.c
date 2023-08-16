@@ -4,6 +4,7 @@
 #include "vm.h"
 #include "debug.h"
 #include "opcode.h"
+#include "scanner.h"
 #include "compiler.h"
 
 // global singleton instance
@@ -32,6 +33,7 @@ enum InterpretResult vm_interpret(const char *source) {
   global_vm.ip = global_vm.chunk->buffer;
 
   enum InterpretResult result = vm_run();
+  //enum InterpretResult result = INTERPRET_RESULT_OK;
 
   chunk_free(&chunk);
   return result;
@@ -50,11 +52,9 @@ Value vm_pop() {
 // file local functions
 
 static enum InterpretResult vm_run(void) {
-  uint8_t *ip = global_vm.ip;
-  Value *values = global_vm.chunk->constants.buffer;
 
-#define READ_BYTE()     (*ip++)
-#define READ_CONSTANT() (values[READ_BYTE()])
+#define READ_BYTE()     (*global_vm.ip++)
+#define READ_CONSTANT() (global_vm.chunk->constants.buffer[READ_BYTE()])
 #define BINARY_OP(op)     do { \
     double b = vm_pop();       \
     double a = vm_pop();       \
@@ -64,15 +64,17 @@ static enum InterpretResult vm_run(void) {
   printf("\n== Running Virtal Machine ==\n");
   for (;;) {
 #ifdef DEBUG_TRACE_EXECUTION
-    printf("          ");
-    for (Value *slot = global_vm.stack; slot < global_vm.stack_top; ++slot) {
+    printf("stack:\t");
+    for (Value* slot = global_vm.stack; slot < global_vm.stack_top; ++slot) {
       printf("[ ");
       value_print(*slot);
       printf(" ]");
     }
     printf("\n");
 
-    debug_disassemble_instruction(global_vm.chunk, (size_t)(ip - global_vm.chunk->buffer));
+    size_t offset = (size_t)(global_vm.ip - global_vm.chunk->buffer);
+    assert(offset < global_vm.chunk->byte_count);
+    debug_disassemble_instruction(global_vm.chunk, offset);
 #endif
 
     uint8_t instruction = 0;
@@ -88,7 +90,7 @@ static enum InterpretResult vm_run(void) {
           (READ_BYTE() << 8)  |
           (READ_BYTE() << 0);
 
-        Value constant = values[value_index];
+        Value constant = global_vm.chunk->constants.buffer[value_index];
         vm_push(constant);
       } break;
 
@@ -111,8 +113,6 @@ static enum InterpretResult vm_run(void) {
       default: {}
     }
   }
-
-  global_vm.ip = ip;
 
 #undef READ_BYTE
 #undef READ_CONSTANT

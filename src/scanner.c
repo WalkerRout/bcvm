@@ -43,7 +43,7 @@ struct Token scanner_scan_token(void) {
   global_scanner.start = global_scanner.current;
 
   if (scanner_at_end()) return make_token(TOKEN_TYPE_EOF);
-
+  
   char c = scanner_advance();
 
   if (is_alpha(c)) return make_identifier();
@@ -235,7 +235,7 @@ static enum TokenType identifier_type(void) {
 }
 
 static enum TokenType check_keyword(size_t start, size_t length, const char *rest, enum TokenType type) {
-  if (global_scanner.current - global_scanner.start == start + length &&
+  if ((size_t) (global_scanner.current - global_scanner.start) == start + length &&
       memcmp(global_scanner.start + start, rest, length) == 0) {
     return type;
   }
