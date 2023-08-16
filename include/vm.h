@@ -16,15 +16,15 @@ enum InterpretResult {
 struct VM {
   struct Chunk *chunk;
   uint8_t *ip; // instruction pointer
-  Value stack[STACK_MAX];
-  Value *stack_top;
+  struct Value stack[STACK_MAX];
+  struct Value *stack_top;
 };
 
 // static singleton instance is modified
 void vm_init(void);
 void vm_free(void);
 enum InterpretResult vm_interpret(const char *source);
-void vm_push(Value value);
-Value vm_pop();
+void vm_push(struct Value value);
+struct Value vm_pop();
 
 #endif // VM_H

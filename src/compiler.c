@@ -49,6 +49,7 @@ static void parser_expression_number(void);
 static void parser_expression_grouping(void);
 static void parser_expression_unary(void);
 static void parser_expression_binary(void);
+static void parser_expression_literal(void);
 static void parser_precedence(enum Precedence precedence);
 static void parser_consume(enum TokenType, const char *error_message);
 static void parser_error_at(struct Token *token, const char *error_message);
@@ -58,8 +59,8 @@ static struct Chunk *current_chunk(void);
 static void emit_byte(uint8_t byte);
 static void emit_bytes(uint8_t byte_a, uint8_t byte_b);
 static void emit_return(void);
-static void emit_constant(Value value);
-static uint8_t make_constant(Value value);
+static void emit_constant(struct Value value);
+static uint8_t make_constant(struct Value value);
 static struct ParseRule* get_rule(enum TokenType type);
 
 struct ParseRule parser_rules[] = {
@@ -74,31 +75,31 @@ struct ParseRule parser_rules[] = {
   [TOKEN_TYPE_SEMICOLON]     = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_SLASH]         = {NULL, parser_expression_binary, PRECEDENCE_FACTOR},
   [TOKEN_TYPE_STAR]          = {NULL, parser_expression_binary, PRECEDENCE_FACTOR},
-  [TOKEN_TYPE_BANG]          = {NULL, NULL, PRECEDENCE_NONE},
-  [TOKEN_TYPE_BANG_EQUAL]    = {NULL, NULL, PRECEDENCE_NONE},
+  [TOKEN_TYPE_BANG]          = {parser_expression_unary, NULL, PRECEDENCE_NONE},
+  [TOKEN_TYPE_BANG_EQUAL]    = {NULL, parser_expression_binary, PRECEDENCE_EQUALITY},
   [TOKEN_TYPE_EQUAL]         = {NULL, NULL, PRECEDENCE_NONE},
-  [TOKEN_TYPE_EQUAL_EQUAL]   = {NULL, NULL, PRECEDENCE_NONE},
-  [TOKEN_TYPE_GREATER]       = {NULL, NULL, PRECEDENCE_NONE},
-  [TOKEN_TYPE_GREATER_EQUAL] = {NULL, NULL, PRECEDENCE_NONE},
-  [TOKEN_TYPE_LESS]          = {NULL, NULL, PRECEDENCE_NONE},
-  [TOKEN_TYPE_LESS_EQUAL]    = {NULL, NULL, PRECEDENCE_NONE},
+  [TOKEN_TYPE_EQUAL_EQUAL]   = {NULL, parser_expression_binary, PRECEDENCE_EQUALITY},
+  [TOKEN_TYPE_GREATER]       = {NULL, parser_expression_binary, PRECEDENCE_COMPARISON},
+  [TOKEN_TYPE_GREATER_EQUAL] = {NULL, parser_expression_binary, PRECEDENCE_COMPARISON},
+  [TOKEN_TYPE_LESS]          = {NULL, parser_expression_binary, PRECEDENCE_COMPARISON},
+  [TOKEN_TYPE_LESS_EQUAL]    = {NULL, parser_expression_binary, PRECEDENCE_COMPARISON},
   [TOKEN_TYPE_IDENTIFIER]    = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_STRING]        = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_NUMBER]        = {parser_expression_number, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_AND]           = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_CLASS]         = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_ELSE]          = {NULL, NULL, PRECEDENCE_NONE},
-  [TOKEN_TYPE_FALSE]         = {NULL, NULL, PRECEDENCE_NONE},
+  [TOKEN_TYPE_FALSE]         = {parser_expression_literal, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_FOR]           = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_FUN]           = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_IF]            = {NULL, NULL, PRECEDENCE_NONE},
-  [TOKEN_TYPE_NIL]           = {NULL, NULL, PRECEDENCE_NONE},
+  [TOKEN_TYPE_NIL]           = {parser_expression_literal, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_OR]            = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_PRINT]         = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_RETURN]        = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_SUPER]         = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_THIS]          = {NULL, NULL, PRECEDENCE_NONE},
-  [TOKEN_TYPE_TRUE]          = {NULL, NULL, PRECEDENCE_NONE},
+  [TOKEN_TYPE_TRUE]          = {parser_expression_literal, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_VAR]           = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_WHILE]         = {NULL, NULL, PRECEDENCE_NONE},
   [TOKEN_TYPE_ERROR]         = {NULL, NULL, PRECEDENCE_NONE},
@@ -129,8 +130,8 @@ static void compiler_end_compile(void) {
 }
 
 static void parser_init(void) {
-  global_parser.had_error  = 0;
-  global_parser.panic_mode = 0;
+  global_parser.had_error  = FALSE;
+  global_parser.panic_mode = FALSE;
   parser_advance();
 }
 
@@ -151,7 +152,7 @@ static void parser_expression(void) {
 
 static void parser_expression_number(void) {
   double value = strtod(global_parser.previous.start, NULL);
-  emit_constant(value);
+  emit_constant(VALUE_NUMBER(value));
 }
 
 static void parser_expression_grouping(void) {
@@ -167,6 +168,7 @@ static void parser_expression_unary(void) {
 
   // emit operator instruction
   switch (ot) {
+    case TOKEN_TYPE_BANG:  emit_byte(OPCODE_NOT);    break;
     case TOKEN_TYPE_MINUS: emit_byte(OPCODE_NEGATE); break;
     default: return; // unreachable
   }
@@ -178,10 +180,26 @@ static void parser_expression_binary(void) {
   parser_precedence((enum Precedence) (rule->precedence + 1));
 
   switch (ot) {
+    case TOKEN_TYPE_BANG_EQUAL:    emit_byte(OPCODE_BANG_EQUAL);    break;
+    case TOKEN_TYPE_EQUAL_EQUAL:   emit_byte(OPCODE_EQUAL_EQUAL);   break;
+    case TOKEN_TYPE_GREATER:       emit_byte(OPCODE_GREATER);       break;
+    case TOKEN_TYPE_GREATER_EQUAL: emit_byte(OPCODE_GREATER_EQUAL); break;
+    case TOKEN_TYPE_LESS:          emit_byte(OPCODE_LESS);          break;
+    case TOKEN_TYPE_LESS_EQUAL:    emit_byte(OPCODE_LESS_EQUAL);    break;
+
     case TOKEN_TYPE_PLUS:  emit_byte(OPCODE_ADD);      break;
     case TOKEN_TYPE_MINUS: emit_byte(OPCODE_SUBTRACT); break;
     case TOKEN_TYPE_STAR:  emit_byte(OPCODE_MULTIPLY); break;
     case TOKEN_TYPE_SLASH: emit_byte(OPCODE_DIVIDE);   break;
+    default: return; // unreachable
+  }
+}
+
+static void parser_expression_literal(void) {
+  switch (global_parser.previous.type) {
+    case TOKEN_TYPE_NIL:   emit_byte(OPCODE_NIL);   break;
+    case TOKEN_TYPE_TRUE:  emit_byte(OPCODE_TRUE);  break;
+    case TOKEN_TYPE_FALSE: emit_byte(OPCODE_FALSE); break;
     default: return; // unreachable
   }
 }
@@ -215,7 +233,7 @@ static void parser_consume(enum TokenType type, const char *error_message) {
 
 static void parser_error_at(struct Token *token, const char *error_message) {
   if (global_parser.panic_mode) return;
-  global_parser.panic_mode = 1;
+  global_parser.panic_mode = TRUE;
 
   fprintf(stderr, "[line %lu] Error ", token->line);
 
@@ -229,7 +247,7 @@ static void parser_error_at(struct Token *token, const char *error_message) {
   }
 
   fprintf(stderr, ": %s\n", error_message);
-  global_parser.had_error = 1;
+  global_parser.had_error = TRUE;
 }
 
 static void parser_error_at_current(const char *error_message) {
@@ -257,11 +275,11 @@ static void emit_return(void) {
   emit_byte(OPCODE_RETURN);
 }
 
-static void emit_constant(Value value) {
+static void emit_constant(struct Value value) {
   emit_bytes(OPCODE_CONSTANT, make_constant(value));
 }
 
-static uint8_t make_constant(Value value) {
+static uint8_t make_constant(struct Value value) {
   size_t constant = chunk_add_constant(current_chunk(), value);
   if (constant > UINT8_MAX) {
     parser_error_at_previous("Error - too many constants in one chunk");

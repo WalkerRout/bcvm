@@ -14,7 +14,7 @@ set(CMAKE_C_COMPILER ${CCompilerPath})
 
 set(EXEC bcvm)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lm -Wall -Wextra -Wpedantic")
 
 # I../include
 # L../lib

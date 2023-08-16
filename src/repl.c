@@ -6,19 +6,30 @@
 #include "repl.h"
 #include "vm.h"
 
+enum LineStatus {
+  LINE_STATUS_BREAK,
+  LINE_STATUS_RESUME,
+  LINE_STATUS_CONTINUE
+};
+
 // file local prototypes
 static char *read_file(const char *file_path);
+static enum LineStatus process_line(const char *line);
 
 void repl_run(void) {
   char line[1024];
   for (;;) {
     printf("> ");
 
-    if (!fgets(line, sizeof(line), stdin) ||
-        strncmp(line, "exit", 4) == 0) {
+    if (!fgets(line, sizeof(line), stdin)) {
       printf("\n");
       break;
     }
+
+    enum LineStatus status = process_line(line);
+    if (status == LINE_STATUS_CONTINUE)   continue;
+    else if (status == LINE_STATUS_BREAK) break;
+    else {} // resume
 
     vm_interpret(line);
   }
@@ -62,4 +73,18 @@ static char *read_file(const char *file_path) {
 
   fclose(f);
   return buffer;
+}
+
+static enum LineStatus process_line(const char *line) {
+  if (strncmp(line, "!exit", 4) == 0) {
+    printf("Goodbye!\n");
+    return LINE_STATUS_BREAK;
+  }
+
+  if (strncmp(line, "!clear", 6) == 0) {
+    puts("Clearing...\033[H\033[2J");
+    return LINE_STATUS_CONTINUE;
+  }
+
+  return LINE_STATUS_RESUME;
 }
