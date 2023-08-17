@@ -144,7 +144,7 @@ static enum InterpretResult vm_run(void) {
         } else if (VALUE_IS_NUMBER(vm_peek(0)) && VALUE_IS_NUMBER(vm_peek(1))) {
           double b = vm_pop().as.number;
           double a = vm_pop().as.number;
-          vm_push(VALUE_NUMBER(a + b));
+          vm_push(VALUE_NUMBER(add(a, b)));
         } else {
           vm_runtime_error("Error - operands must be two numbers or two strings");
           return INTERPRET_RESULT_RUNTIME_ERROR;
@@ -195,7 +195,7 @@ static void vm_runtime_error(const char *format, ...) {
 
   size_t instruction = global_vm.ip - global_vm.chunk->buffer - 1;
   size_t line = chunk_get_line(global_vm.chunk, instruction);
-  fprintf(stderr, "[line %d] in script\n", line);
+  fprintf(stderr, "[line %lu] in script\n", line);
   vm_reset_stack();
 }
 
@@ -209,12 +209,13 @@ static void string_concatenate(void) {
   struct ObjectString *a = OBJECT_STRING_FROM_VALUE(vm_pop());
 
   size_t length = a->length + b->length;
-  char *chars = MEMORY_ALLOCATE(char, length + 1);
-  memcpy(chars, a->buffer, a->length);
-  memcpy(chars + a->length, b->buffer, b->length);
-  chars[length] = '\0';
 
-  struct ObjectString *result = object_move_string(chars, length);
+  struct ObjectString *result = object_allocate_string(length);
+
+  memcpy(result->buffer, a->buffer, a->length);
+  memcpy(result->buffer + a->length, b->buffer, b->length);
+  result->buffer[length] = '\0';
+
   vm_push(VALUE_OBJECT(result));
 }
 

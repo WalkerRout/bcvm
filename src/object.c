@@ -7,22 +7,21 @@
 #include "value.h"
 #include "vm.h"
 
-#define OBJECT_ALLOCATE(type, object_type) (type *) allocate_object(sizeof(type), object_type)
-
 // file local prototypes
-static struct Object *allocate_object(size_t size, enum ObjectType type);
-static struct ObjectString *allocate_string(char *chars, size_t length);
 static void object_free_object(struct Object *object);
 
-struct ObjectString *object_copy_string(const char *chars, size_t length) {
-  char *heap_chars = MEMORY_ALLOCATE(char, length + 1);
-  memcpy(heap_chars, chars, length);
-  heap_chars[length] = '\0';
-  return allocate_string(heap_chars, length);
+struct ObjectString *object_object_string_from_parts(const char *buffer, size_t length) {
+  struct ObjectString *new_string = object_allocate_string(length);
+  memcpy(new_string->buffer, buffer, length);
+  new_string->buffer[length] = '\0';
+  return new_string;
 }
 
-struct ObjectString *object_move_string(char *chars, size_t length) {
-  return allocate_string(chars, length);
+struct ObjectString *object_copy_string(struct ObjectString *string) {
+  struct ObjectString *new_string = object_allocate_string(string->length);
+  memcpy(new_string->buffer, string->buffer, string->length);
+  new_string->buffer[string->length] = '\0';
+  return new_string;
 }
 
 void object_free_objects(void) {
@@ -40,10 +39,8 @@ void object_print(struct Value value) {
   }
 }
 
-// file local functions
-
-static struct Object *allocate_object(size_t size, enum ObjectType type) {
-  struct Object *object = (struct Object *) memory_reallocate(NULL, 0, size);
+struct Object *object_allocate_object(size_t size, enum ObjectType type) {
+  struct Object *object = memory_reallocate(NULL, 0, size);
   object->type = type;
 
   object->next = global_vm.objects;
@@ -52,19 +49,20 @@ static struct Object *allocate_object(size_t size, enum ObjectType type) {
   return object;
 }
 
-static struct ObjectString *allocate_string(char *chars, size_t length) {
-  struct ObjectString *string = OBJECT_ALLOCATE(struct ObjectString, OBJECT_TYPE_STRING);
+// allocate a single sized buffer with 
+struct ObjectString *object_allocate_string(size_t length) {
+  struct ObjectString *string = (struct ObjectString *) object_allocate_object(sizeof(struct ObjectString) + length + 1, OBJECT_TYPE_STRING);
   string->length = length;
-  string->buffer = chars;
   return string;
 }
+
+// file local functions
 
 static void object_free_object(struct Object *object) {
   switch (object->type) {
     case OBJECT_TYPE_STRING: {
       struct ObjectString *string = OBJECT_STRING_FROM_OBJECT(object);
-      MEMORY_FREE_ARRAY(char, string->buffer, string->length + 1);
-      MEMORY_FREE(struct ObjectString, object);
+      memory_reallocate(string, sizeof(struct ObjectString) + string->length + 1, 0);
       break;
     }
   }

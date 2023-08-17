@@ -160,7 +160,7 @@ static void parser_expression_number(void) {
 static void parser_expression_string(void) {
   emit_constant(
     VALUE_OBJECT(
-      object_copy_string(
+      object_object_string_from_parts(
         global_parser.previous.start + 1,
         global_parser.previous.length - 2
       )
