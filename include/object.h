@@ -19,6 +19,7 @@ struct Object {
 struct ObjectString {
   struct Object object;
   size_t length;
+  uint32_t hash;
   char buffer[]; // sizeof treats as 0
 };
 
@@ -33,9 +34,10 @@ static inline uint8_t object_is_object_type(struct Value value, enum ObjectType 
 
 struct ObjectString *object_object_string_from_parts(const char *buffer, size_t length);
 struct ObjectString *object_copy_string(struct ObjectString *string);
-void object_free_objects(void);
-void object_print(struct Value value);
 struct Object *object_allocate_object(size_t size, enum ObjectType type);
 struct ObjectString *object_allocate_string(size_t length);
+void object_object_string_update_hash(struct ObjectString *string);
+void object_free_objects(void);
+void object_print(struct Value value);
 
 #endif // OBJECT_H

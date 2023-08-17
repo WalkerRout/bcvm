@@ -17,11 +17,11 @@ struct Chunk {
   struct ValueArray constants; // constant pool
 };
 
-void chunk_init(struct Chunk *self);
-void chunk_free(struct Chunk *self);
-void chunk_write(struct Chunk *self, const uint8_t byte, const size_t line);
-size_t chunk_add_constant(struct Chunk *self, const struct Value constant);
-size_t chunk_write_constant(struct Chunk *self, const struct Value constant, const size_t line);
-size_t chunk_get_line(struct Chunk *const self, const size_t offset);
+void chunk_init(struct Chunk *chunk);
+void chunk_free(struct Chunk *chunk);
+void chunk_write(struct Chunk *chunk, const uint8_t byte, const size_t line);
+size_t chunk_add_constant(struct Chunk *chunk, const struct Value constant);
+size_t chunk_write_constant(struct Chunk *chunk, const struct Value constant, const size_t line);
+size_t chunk_get_line(struct Chunk *const chunk, const size_t offset);
 
 #endif // CHUNK_H

@@ -16,8 +16,8 @@ struct LineArray {
   struct Line *lines;
 };
 
-void line_array_init(struct LineArray *self);
-void line_array_free(struct LineArray *self);
-void line_array_write(struct LineArray *self, const size_t line);
+void line_array_init(struct LineArray *line_array);
+void line_array_free(struct LineArray *line_array);
+void line_array_write(struct LineArray *line_array, const size_t line);
 
 #endif // LINE_H

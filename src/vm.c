@@ -210,11 +210,14 @@ static void string_concatenate(void) {
 
   size_t length = a->length + b->length;
 
+  // call to object_allocate_object adds new node to allocation list
   struct ObjectString *result = object_allocate_string(length);
 
   memcpy(result->buffer, a->buffer, a->length);
   memcpy(result->buffer + a->length, b->buffer, b->length);
   result->buffer[length] = '\0';
+
+  object_object_string_update_hash(result);
 
   vm_push(VALUE_OBJECT(result));
 }

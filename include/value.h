@@ -39,9 +39,9 @@ struct ValueArray {
   struct Value *buffer;
 };
 
-void value_array_init(struct ValueArray *self);
-void value_array_free(struct ValueArray *self);
-void value_array_write(struct ValueArray *self, struct Value value);
+void value_array_init(struct ValueArray *value_array);
+void value_array_free(struct ValueArray *value_array);
+void value_array_write(struct ValueArray *value_array, struct Value value);
 void value_print(struct Value value);
 
 #endif // VALUE_H

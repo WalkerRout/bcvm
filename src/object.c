@@ -9,11 +9,13 @@
 
 // file local prototypes
 static void object_free_object(struct Object *object);
+static uint32_t hash_cstr(const char *key, size_t length);
 
 struct ObjectString *object_object_string_from_parts(const char *buffer, size_t length) {
   struct ObjectString *new_string = object_allocate_string(length);
   memcpy(new_string->buffer, buffer, length);
   new_string->buffer[length] = '\0';
+  object_object_string_update_hash(new_string);
   return new_string;
 }
 
@@ -21,7 +23,30 @@ struct ObjectString *object_copy_string(struct ObjectString *string) {
   struct ObjectString *new_string = object_allocate_string(string->length);
   memcpy(new_string->buffer, string->buffer, string->length);
   new_string->buffer[string->length] = '\0';
+  object_object_string_update_hash(new_string);
   return new_string;
+}
+
+struct Object *object_allocate_object(size_t size, enum ObjectType type) {
+  struct Object *object = memory_reallocate(NULL, 0, size);
+  object->type = type;
+
+  // insert head
+  object->next = global_vm.objects;
+  global_vm.objects = object;
+
+  return object;
+}
+
+// allocate a single sized buffer with 
+struct ObjectString *object_allocate_string(size_t length) {
+  struct ObjectString *string = (struct ObjectString *) object_allocate_object(sizeof(struct ObjectString) + length + 1, OBJECT_TYPE_STRING);
+  string->length = length;
+  return string;
+}
+
+void object_object_string_update_hash(struct ObjectString *string) {
+  string->hash = hash_cstr(string->buffer, string->length);
 }
 
 void object_free_objects(void) {
@@ -39,23 +64,6 @@ void object_print(struct Value value) {
   }
 }
 
-struct Object *object_allocate_object(size_t size, enum ObjectType type) {
-  struct Object *object = memory_reallocate(NULL, 0, size);
-  object->type = type;
-
-  object->next = global_vm.objects;
-  global_vm.objects = object;
-
-  return object;
-}
-
-// allocate a single sized buffer with 
-struct ObjectString *object_allocate_string(size_t length) {
-  struct ObjectString *string = (struct ObjectString *) object_allocate_object(sizeof(struct ObjectString) + length + 1, OBJECT_TYPE_STRING);
-  string->length = length;
-  return string;
-}
-
 // file local functions
 
 static void object_free_object(struct Object *object) {
@@ -66,4 +74,13 @@ static void object_free_object(struct Object *object) {
       break;
     }
   }
+}
+
+static uint32_t hash_cstr(const char *key, size_t length) {
+  uint32_t hash = 2166136261u;
+  for (size_t i = 0; i < length; i++) {
+    hash ^= (uint8_t) key[i];
+    hash *= 16777619;
+  }
+  return hash;
 }
